@@ -1,0 +1,30 @@
+-- Validation queries for MySQL 8.x
+USE online_bookstore;
+
+SELECT 'categories' AS table_name, COUNT(*) AS row_count FROM categories
+UNION ALL SELECT 'authors', COUNT(*) FROM authors
+UNION ALL SELECT 'publishers', COUNT(*) FROM publishers
+UNION ALL SELECT 'books', COUNT(*) FROM books
+UNION ALL SELECT 'customers', COUNT(*) FROM customers
+UNION ALL SELECT 'orders', COUNT(*) FROM orders
+UNION ALL SELECT 'order_items', COUNT(*) FROM order_items
+UNION ALL SELECT 'payments', COUNT(*) FROM payments;
+
+SELECT TABLE_NAME, TABLE_TYPE
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = DATABASE()
+ORDER BY TABLE_NAME;
+
+SELECT TABLE_NAME, INDEX_NAME, COLUMN_NAME, SEQ_IN_INDEX
+FROM information_schema.STATISTICS
+WHERE TABLE_SCHEMA = DATABASE()
+  AND TABLE_NAME IN ('books','orders','order_items')
+ORDER BY TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX;
+
+SELECT ROUTINE_NAME, ROUTINE_TYPE
+FROM information_schema.ROUTINES
+WHERE ROUTINE_SCHEMA = DATABASE();
+
+SELECT TRIGGER_NAME, EVENT_MANIPULATION, ACTION_TIMING, EVENT_OBJECT_TABLE
+FROM information_schema.TRIGGERS
+WHERE TRIGGER_SCHEMA = DATABASE();
